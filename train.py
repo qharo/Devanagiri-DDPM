@@ -10,3 +10,4 @@ if __name__ == '__main__':
             print("YAML FILE EXCEPTION\n", exc)
     
     dataset = DevanagiriDataset(config['dataset_params'])
+    print(dataset[0].shape)

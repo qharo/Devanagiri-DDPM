@@ -1,3 +1,6 @@
+import torchvision.transforms as T
+import glob
+from PIL import Image
 from zipfile import ZipFile
 from io import BytesIO
 from tqdm import tqdm
@@ -8,11 +11,30 @@ import subprocess
 
 class DevanagiriDataset(Dataset):
     def __init__(self, params: dict):
-        self.download_dataset(save_path=params['save_path'])
+        self.params = params
 
-    def download_dataset(self, save_path='data/', url="https://archive.ics.uci.edu/static/public/389/devanagari+handwritten+character+dataset.zip"):
+        download_url = "https://archive.ics.uci.edu/static/public/389/devanagari+handwritten+character+dataset.zip"
+        self.download_dataset(url=download_url)
+        self.imgs = self.load_dataset()
+
+    def load_dataset(self):
+
+        imgs = []
+        for root, dirs, files in os.walk(self.params['save_path']):
+            imgs += [os.path.join(root, file) for file in files if file.endswith(self.params['img_ext'])]
+
+        print(f"Found {len(imgs)} images")
+        return imgs
+
+    def download_dataset(self, url: str):
+           
+            # if data exists, move on
+            if os.path.exists(self.params['save_path']):
+                print('Data found')
+                return 0
+
             # make dir if doesn't exist
-            os.makedirs(save_path, exist_ok=True)
+            os.makedirs(self.params['save_path'], exist_ok=True)
 
             # get file
             response = requests.get(url, stream=True)
@@ -33,21 +55,23 @@ class DevanagiriDataset(Dataset):
                     with ZipFile(content) as zip_file:
                         
                         total_files = len(zip_file.infolist())
+                        self.total = total_files
                         for file in tqdm(zip_file.infolist(), total=total_files, desc="Extracting"):
-                            zip_file.extract(file, save_path)
-                    print(f"Dataset extracted to {save_path}")
-
-
-                command = f"mv {os.path.join(save_path, 'DevanagariHandwrittenCharacterDataset')}/* {save_path}"
-                
-                try:
-                    result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-                    result = subprocess.run(f"rm -rf {os.path.join(save_path, 'DevanagariHandwrittenCharacterDataset')}/", shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True) 
-
-                except subprocess.CalledProcessError as e:
-                     print(f"An error occurred while moving files: {e}")
-                     print(e.stderr)
+                            zip_file.extract(file, self.params['save_path'])
+                    print(f"Dataset extracted to {self.params['save_path']}")
 
             else:
                 print(f"Failed to download the dataset. Status code: {response.status_code}")
 
+    def __len__(self):
+        return len(self.imgs)
+    
+    def __getitem__(self, index):
+        
+        transform = T.Compose([
+            T.ToTensor(),
+            T.Lambda(lambda x: 2 * x - 1)
+        ])
+
+        with Image.open(self.imgs[index]) as im:
+            return transform(im)
