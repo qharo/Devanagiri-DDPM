@@ -13,21 +13,24 @@ class DevanagiriDataset(Dataset):
     def __init__(self, params: dict):
         self.params = params
 
+        # for Devanagiri Handwritten Dataset
         download_url = "https://archive.ics.uci.edu/static/public/389/devanagari+handwritten+character+dataset.zip"
+        
         self.download_dataset(url=download_url)
         self.imgs = self.load_dataset()
 
     def load_dataset(self):
-
         imgs = []
+
+        # find all PNG/file_ext files within folder
         for root, dirs, files in os.walk(self.params['save_path']):
             imgs += [os.path.join(root, file) for file in files if file.endswith(self.params['img_ext'])]
 
         print(f"Found {len(imgs)} images")
         return imgs
 
+    
     def download_dataset(self, url: str):
-           
             # if data exists, move on
             if os.path.exists(self.params['save_path']):
                 print('Data found')
@@ -36,7 +39,7 @@ class DevanagiriDataset(Dataset):
             # make dir if doesn't exist
             os.makedirs(self.params['save_path'], exist_ok=True)
 
-            # get file
+            # get streaming response
             response = requests.get(url, stream=True)
             if response.status_code == 200:
                 filename = url.split('/')[-1]
@@ -51,6 +54,7 @@ class DevanagiriDataset(Dataset):
                     progress_bar.update(size)
                 progress_bar.close()
 
+                # extract file
                 if url.split('/')[-1].endswith('.zip'):
                     with ZipFile(content) as zip_file:
                         
@@ -67,7 +71,7 @@ class DevanagiriDataset(Dataset):
         return len(self.imgs)
     
     def __getitem__(self, index):
-        
+       # within [-1, 1] range 
         transform = T.Compose([
             T.ToTensor(),
             T.Lambda(lambda x: 2 * x - 1)
