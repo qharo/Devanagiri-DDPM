@@ -100,12 +100,12 @@ class Block(nn.Module):
             ]
         )
     
-    def _apply_resnets(self, out, layer):
+    def _apply_resnets(self, out, t_emb, layer):
         resnet_input = out
         out = self.resnet_one[layer](out)
         out = out + self.t_emb_layers[layer](t_emb)[:, :, None, None]
         out = self.resnet_two[layer](out)
-        return out + self.residual_input[layer](resnet_input)
+        return out + self.res_input[layer](resnet_input)
 
     def _apply_attention(self, out, layer):
         batch_size, channels, h, w = out.shape
@@ -123,17 +123,17 @@ class Block(nn.Module):
 
         out = x
 
-        if block_type == "mid":
-            self._apply_resnets(out, 0)
-            for i in range(self.num_layers):
+        if self.block_type == "mid":
+            self._apply_resnets(out, t_emb, 0)
+            for i in range(self.n_layers):
                 out = self._apply_attention(out, i)
-                out = self._apply_resnets(out, i + 1)
+                out = self._apply_resnets(out, t_emb, i + 1)
         else:
-            for i in range(self.num_layers):
-                out = self._apply_resnets(out, i)
+            for i in range(self.n_layers):
+                out = self._apply_resnets(out, t_emb, i)
                 out = self._apply_attention(out, i)
 
-        if block_type == "down":
+        if self.block_type == "down":
             out = self.down_sample_conv(out)
 
         return out

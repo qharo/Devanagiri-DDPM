@@ -1,4 +1,4 @@
-model_params:
+model:
   im_channels : 1
   im_size : 28
   down_channels : [32, 64, 128, 256]
@@ -10,6 +10,17 @@ model_params:
   num_up_layers : 2
   num_heads : 4
 
-dataset_params:
+dataset:
     save_path: 'data/'
     img_ext: '.png'
+
+diffusion:
+  algo: 'linear'
+  n_steps: 1000
+  beta_start: 0.001
+  beta_end: 0.02
+
+train:
+  batch_size: 64
+  num_epochs: 40
+  lr: 0.0001
