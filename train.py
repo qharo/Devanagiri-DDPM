@@ -7,7 +7,6 @@ import numpy as np
 from torch.optim import Adam
 import torch
 from tqdm import tqdm
-from unet_base import Unet
 
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -69,7 +68,7 @@ if __name__ == '__main__':
             loss.backward()
             optimizer.step()
         print('Finished epoch:{} | Loss : {:.4f}'.format(
-            epoch_idx + 1,
+            epoch_id + 1,
             np.mean(losses),
         ))
             
