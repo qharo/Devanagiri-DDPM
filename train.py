@@ -7,6 +7,8 @@ import numpy as np
 from torch.optim import Adam
 import torch
 from tqdm import tqdm
+from unet_base import Unet
+
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 

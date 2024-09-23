@@ -85,7 +85,7 @@ class Block(nn.Module):
     
     # Initialize Attention Sub-Blocks
     def _init_attention(self, out_channels, in_channels):
-  
+ 
         self.attention_norms = nn.ModuleList(
             [
                 nn.GroupNorm(8, out_channels)
@@ -110,7 +110,7 @@ class Block(nn.Module):
     def _apply_attention(self, out, layer):
         batch_size, channels, h, w = out.shape
         in_attn = out.reshape(batch_size, channels, h * w)
-        in_attn = self.attention_norms[layer](in_attn)
+        in_attn = self.attention_norms[layer](in_attn) 
         in_attn = in_attn.transpose(1, 2)
         out_attn, _ = self.attentions[layer](in_attn, in_attn, in_attn)
         out_attn = out_attn.transpose(1, 2).reshape(batch_size, channels, h, w)
@@ -124,7 +124,7 @@ class Block(nn.Module):
         out = x
 
         if self.block_type == "mid":
-            self._apply_resnets(out, t_emb, 0)
+            out = self._apply_resnets(out, t_emb, 0)
             for i in range(self.n_layers):
                 out = self._apply_attention(out, i)
                 out = self._apply_resnets(out, t_emb, i + 1)
@@ -171,7 +171,7 @@ class UNet(nn.Module):
 
         self.mids = nn.ModuleList([])
         for i in range(len(self.mid_channels)-1):
-            self.mids.append(Block(self.mid_channels[i], self.mid_channels[i+1], self.t_emb_dim,block_type="mid", n_layers=self.num_mid_layers))
+            self.mids.append(Block(self.mid_channels[i], self.mid_channels[i+1], self.t_emb_dim, block_type="mid", n_layers=self.num_mid_layers))
 
         self.ups = nn.ModuleList([])
         for i in reversed(range(len(self.down_channels)-1)):
@@ -208,7 +208,7 @@ class UNet(nn.Module):
         
         for up in self.ups:
             down_out = down_outs.pop()
-            out = up(out, down_out, t_emb)
+            out = up(out, t_emb, down_out)
             # out [B x C2 x H/4 x W/4, B x C1 x H/2 x W/2, B x 16 x H x W]
         out = self.norm_out(out)
         out = nn.SiLU()(out)
