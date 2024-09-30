@@ -1,3 +1,4 @@
+from pathlib import Path
 import yaml
 from dataset import DevanagiriDataset
 from torch.utils.data import DataLoader
@@ -41,6 +42,21 @@ if __name__ == '__main__':
             beta_start=config['diffusion']['beta_start'],
             beta_end=config['diffusion']['beta_end'])
 
+    # setting up checkpointing
+    checkpoint_dir = Path(config['train']['checkpoint_folder'])
+    checkpoint_dir.mkdir(exist_ok=True)
+    
+    checkpoint_path = checkpoint_dir / train_config['checkpoint_name']
+
+    if checkpoint_path.exists():
+        print(f'Loading checkpoint from {checkpoint_path}')
+        model.load_state_dict(torch.load(checkpoint_path, map_location=device))
+    else:
+        print(f'No checkpoint found at {checkpoint_path}')
+    return model
+
+
+
     # training params
     num_epochs = config['train']['num_epochs']
     optimizer = Adam(model.parameters(), lr=config['train']['lr'])
@@ -71,4 +87,6 @@ if __name__ == '__main__':
             epoch_id + 1,
             np.mean(losses),
         ))
+        torch.save(model.state_dict(), checkpoint_path)
+    print("Training completed!")
             

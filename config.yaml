@@ -24,3 +24,5 @@ train:
   batch_size: 64
   num_epochs: 4
   lr: 0.0001
+  checkpoint_folder: 'checkpoints'
+  checkpoint_name: '4_epochs.pth'
