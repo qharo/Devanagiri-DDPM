@@ -46,16 +46,13 @@ if __name__ == '__main__':
     checkpoint_dir = Path(config['train']['checkpoint_folder'])
     checkpoint_dir.mkdir(exist_ok=True)
     
-    checkpoint_path = checkpoint_dir / train_config['checkpoint_name']
+    checkpoint_path = checkpoint_dir / config['train']['checkpoint_name']
 
     if checkpoint_path.exists():
         print(f'Loading checkpoint from {checkpoint_path}')
         model.load_state_dict(torch.load(checkpoint_path, map_location=device))
     else:
         print(f'No checkpoint found at {checkpoint_path}')
-    return model
-
-
 
     # training params
     num_epochs = config['train']['num_epochs']
