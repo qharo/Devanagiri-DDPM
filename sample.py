@@ -31,7 +31,7 @@ if __name__ == '__main__':
             beta_end=config['diffusion']['beta_end'])
 
     # sample
-    xt = torch.randn(#1, #config['train']['num_samples'],
+    xt = torch.randn(1, #config['train']['num_samples'],
                      config['model']['img_channels'],
                      config['model']['img_size'],
                      config['model']['img_size']).to(device)
@@ -45,11 +45,12 @@ if __name__ == '__main__':
         xt, x0_pred = scheduler.sample_prev_timestep(xt, noise_pred, torch.as_tensor(i).to(device))
 
         # Save x0
-        imgs = torch.clamp(xt, -1., 1.).detach().cpu()
-        imgs = (imgs + 1) / 2
+        img = torch.clamp(xt, -1., 1.).detach().cpu()
+        img = (img + 1) / 2
         # grid = make_grid(ims, nrow=config['train']['num_grid_rows'])
-        img = torchvision.transforms.ToPILImage()(imgs)
+        img = torchvision.transforms.ToPILImage()(img[0])
         if not os.path.exists(os.path.join(config['train']['checkpoint_folder'], 'samples')):
             os.mkdir(os.path.join(config['train']['checkpoint_folder'], 'samples'))
         img.save(os.path.join(config['train']['checkpoint_folder'], 'samples', 'x0_{}.png'.format(i)))
         img.close()
+        del img

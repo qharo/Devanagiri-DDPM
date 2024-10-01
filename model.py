@@ -141,7 +141,7 @@ class Block(nn.Module):
 class UNet(nn.Module):    
     def __init__(self, model_config):
         super().__init__()
-        im_channels = model_config['im_channels']
+        img_channels = model_config['img_channels']
         self.down_channels = model_config['down_channels']
         self.mid_channels = model_config['mid_channels']
         self.t_emb_dim = model_config['time_emb_dim']
@@ -162,7 +162,7 @@ class UNet(nn.Module):
         )
 
         self.up_sample = list(reversed(self.down_sample))
-        self.conv_in = nn.Conv2d(im_channels, self.down_channels[0], kernel_size=3, padding=(1, 1))
+        self.conv_in = nn.Conv2d(img_channels, self.down_channels[0], kernel_size=3, padding=(1, 1))
         
         self.downs = nn.ModuleList([])
         for i in range(len(self.down_channels)-1):
@@ -178,7 +178,7 @@ class UNet(nn.Module):
             self.ups.append(Block(self.down_channels[i] * 2, self.down_channels[i-1] if i != 0 else 16, self.t_emb_dim, block_type="up", rescale=self.down_sample[i], n_layers=self.num_up_layers))        
 
         self.norm_out = nn.GroupNorm(8, 16)
-        self.conv_out = nn.Conv2d(16, im_channels, kernel_size=3, padding=1)
+        self.conv_out = nn.Conv2d(16, img_channels, kernel_size=3, padding=1)
 
 
 
