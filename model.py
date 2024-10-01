@@ -188,6 +188,7 @@ class UNet(nn.Module):
         # Shapes assuming downsamples are [True, True, False]
         # B x C x H x W
         out = self.conv_in(x)
+        del x
         # B x C1 x H x W
         
         # t_emb -> B x t_emb_dim
@@ -199,16 +200,20 @@ class UNet(nn.Module):
         for idx, down in enumerate(self.downs):
             down_outs.append(out)
             out = down(out, t_emb)
+            torch.cuda.empty_cache()
         # down_outs  [B x C1 x H x W, B x C2 x H/2 x W/2, B x C3 x H/4 x W/4]
         # out B x C4 x H/4 x W/4
             
         for mid in self.mids:
             out = mid(out, t_emb)
+            torch.cuda.empty_cache()
         # out B x C3 x H/4 x W/4
         
         for up in self.ups:
             down_out = down_outs.pop()
-            out = up(out, t_emb, down_out)
+            out = up(out, t_emb, down_out) 
+            torch.cuda.empty_cache()
+            del down_out
             # out [B x C2 x H/4 x W/4, B x C1 x H/2 x W/2, B x 16 x H x W]
         out = self.norm_out(out)
         out = nn.SiLU()(out)
