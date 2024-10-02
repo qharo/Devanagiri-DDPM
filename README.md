@@ -3,13 +3,13 @@ A PyTorch implementation of [Denoising Diffusion Probabilistic Methods](https://
 
 ### Quickstart
 
-##### Installation
+#### Installation
 Using a Python environment of your choice,
 1. ```git clone https://github.com/qharo/Devanagiri-DDPM.git```
 2. ```cd Devanagiri-DDPM```
 3. ```pip install -r requirements.txt```
 
-##### Usage
+#### Usage
 To train,
 ```python3 train.py```
 
