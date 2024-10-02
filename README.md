@@ -1,5 +1,5 @@
 # Devanagiri-DDPM
-A PyTorch implementation of [Denoising Diffusion Probabilistic Methods](https://arxiv.org/pdf/2006.11239) trained to generate [Devanagiri](https://archive.ics.uci.edu/dataset/389/devanagari+handwritten+character+dataset) characters.
+A PyTorch implementation of [Denoising Diffusion Probabilistic Model](https://arxiv.org/pdf/2006.11239) trained to generate [Devanagiri](https://archive.ics.uci.edu/dataset/389/devanagari+handwritten+character+dataset) characters.
 
 ### Quickstart
 
@@ -23,11 +23,22 @@ The script defaults to downloading the dataset, so should you decide to train on
    <img alt="t=999" src="https://github.com/qharo/Devanagiri-DDPM/blob/main/result_images/x0_999.png"
    width="300">
 </a><a href="https://github.com/qharo/Devanagiri-DDPM/blob/main/result_images/x0_499.png">
-   <img alt="t=999" src="https://github.com/qharo/Devanagiri-DDPM/blob/main/result_images/x0_499.png"
+   <img alt="t=499" src="https://github.com/qharo/Devanagiri-DDPM/blob/main/result_images/x0_499.png"
    width="300">
 </a>
 <a href="https://github.com/qharo/Devanagiri-DDPM/blob/main/result_images/x0_374.png">
-   <img alt="t=999" src="https://github.com/qharo/Devanagiri-DDPM/blob/main/result_images/x0_374.png"
+   <img alt="t=374" src="https://github.com/qharo/Devanagiri-DDPM/blob/main/result_images/x0_374.png"
+   width="300">
+</a><a href="https://github.com/qharo/Devanagiri-DDPM/blob/main/result_images/x0_249.png">
+   <img alt="t=249" src="https://github.com/qharo/Devanagiri-DDPM/blob/main/result_images/x0_249.png"
+   width="300">
+</a>
+<a href="https://github.com/qharo/Devanagiri-DDPM/blob/main/result_images/x0_99.png">
+   <img alt="t=99" src="https://github.com/qharo/Devanagiri-DDPM/blob/main/result_images/x0_99.png"
+   width="300">
+</a>
+<a href="https://github.com/qharo/Devanagiri-DDPM/blob/main/result_images/x0_0.png">
+   <img alt="t=0" src="https://github.com/qharo/Devanagiri-DDPM/blob/main/result_images/x0_0.png"
    width="300">
 </a>
 
