@@ -42,7 +42,7 @@ The script defaults to downloading the dataset, so should you decide to train on
    width="300">
 </a>
 
-The U-Net has 10,fadsfsd parameters, trained on 96,000 32x32 images for 40 epochs using an RTX A4000. 
+The U-Net has ~10M parameters, trained on 96,000 32x32 images for 40 epochs using an RTX A4000. 
 
 
 ### Citations and Acknowledgements
