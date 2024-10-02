@@ -19,7 +19,11 @@ To sample,
 The script defaults to downloading the dataset, so should you decide to train on another dataset you can edit ```dataset.py```.
 
 ### Features
-Images
+<a href="https://github.com/qharo/Devanagiri-DDPM/blob/main/result_images/x0_999.png">
+   <img alt="t=999" src="https://github.com/qharo/Devanagiri-DDPM/blob/main/result_images/x0_999.png"
+   width="300">
+</a>
+
 
 The U-Net has 10,fadsfsd parameters, trained on 96,000 32x32 images for 40 epochs using an RTX A4000. 
 
