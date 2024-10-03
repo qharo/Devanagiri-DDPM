@@ -1,25 +1,15 @@
-import psutil
-import GPUtil
 import os
 import yaml
 from model import UNet
 from scheduler import NoiseScheduler
 import numpy as np
-from torch.optim import Adam
 import torch
+from torch.optim import Adam
 from tqdm import tqdm
 import torchvision
 from torchvision.utils import make_grid
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-def monitor_resources():
-    print(f"\nCPU Usage: {psutil.cpu_percent()}%")
-    print(f"Memory Usage: {psutil.virtual_memory().percent}%")
-    GPUs = GPUtil.getGPUs()
-    for gpu in GPUs:
-        print(f"GPU ID: {gpu.id}, GPU Load: {gpu.load*100}%, GPU Memory: {gpu.memoryUtil*100}%")
-
 
 # Your main code here
 def main():
@@ -50,7 +40,7 @@ if __name__ == '__main__':
             beta_start=config['diffusion']['beta_start'],
             beta_end=config['diffusion']['beta_end'])
 
-    # sample
+    # random nth sample
     xt = torch.randn(config['sample']['n_samples'],
                      config['model']['img_channels'],
                      config['model']['img_size'],

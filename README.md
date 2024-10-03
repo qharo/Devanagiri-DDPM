@@ -42,31 +42,31 @@ The script defaults to downloading the dataset, so should you decide to train on
    width="300">
 </a>
 
-The U-Net has ~10M parameters, trained on 96,000 32x32 images for 40 epochs using an RTX A4000. 
+The U-Net has ~10M parameters, trained on 96,000 32x32 images for 40 epochs using an RTX A4000.
 
 
 ### Citations and Acknowledgements
 ```
 @misc{ho2020denoisingdiffusionprobabilisticmodels,
-      title={Denoising Diffusion Probabilistic Models}, 
+      title={Denoising Diffusion Probabilistic Models},
       author={Jonathan Ho and Ajay Jain and Pieter Abbeel},
       year={2020},
       eprint={2006.11239},
       archivePrefix={arXiv},
       primaryClass={cs.LG},
-      url={https://arxiv.org/abs/2006.11239}, 
+      url={https://arxiv.org/abs/2006.11239},
 }
 ```
 ```
 @misc{nichol2021improveddenoisingdiffusionprobabilistic,
-      title={Improved Denoising Diffusion Probabilistic Models}, 
+      title={Improved Denoising Diffusion Probabilistic Models},
       author={Alex Nichol and Prafulla Dhariwal},
       year={2021},
       eprint={2102.09672},
       archivePrefix={arXiv},
       primaryClass={cs.LG},
-      url={https://arxiv.org/abs/2102.09672}, 
+      url={https://arxiv.org/abs/2102.09672},
 }
 ```
 * [Calvin Luo](https://calvinyluo.com/2022/08/26/diffusion-tutorial.html) and [Explaining-AI](https://www.youtube.com/watch?v=H45lF4sUgiE) for providing clarity for the math
-* Inspired by [Explaining-AI's](https://github.com/explainingai-code/DDPM-Pytorch/tree/main)
+* Inspired by [Explaining-AI's](https://github.com/explainingai-code/DDPM-Pytorch/tree/main) GitHub repository
